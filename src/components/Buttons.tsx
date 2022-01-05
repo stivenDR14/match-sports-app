@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled, { css } from "styled-components";
-import { StateModel } from "../models/stateModel";
+import { StateModel } from "../models/state-model";
 import { useSpring, animated, Spring } from "react-spring";
-import { setIntro, setTheme } from "../actions";
+import { setTheme } from "../actions";
 import { DarkColors, LightColors } from "../utils/Colors";
 import { setInterval } from "timers";
 
@@ -20,7 +20,7 @@ interface ButtonProps extends StateModel {
 }
 
 
-const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setTheme, setIntro, loginCallback }) => {
+const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setTheme, setIntro, loginCallback=()=>{} }) => {
 
     const [styles, api] = useSpring(() => ({
         scale: 1,
@@ -71,9 +71,9 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setThem
         return (
             <animated.div
                 onMouseDown={()=> {
-                    setTimeout(() => {
-                        setIntro(false)}, 500)
-                    api.start({ scale: 1.1, y: -8, opacity: 0.4})
+                      setTimeout(loginCallback, 0)
+                        
+                       api.start({ scale: 1.1, y: -8, opacity: 0.4})
                 }}
                 onMouseLeave={()=> api.start({ scale: 1, y:0, opacity: 1})}
                 style={styles}
@@ -117,8 +117,7 @@ const mapStateToProps = (state: StateModel): StateModel => {
   }
 
   const mapDispatchToProps = {
-    setTheme,
-    setIntro,
+    setTheme
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Buttons);

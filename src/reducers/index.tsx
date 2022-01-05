@@ -1,3 +1,6 @@
+import { StateModel } from "../models/state-model"
+import { Authentication } from "../services/authentication-service"
+
 const reducer = (state: any, action: { type: string; payload: any; }) => {
     switch(action.type){
         case 'SET_THEME':
@@ -5,11 +8,13 @@ const reducer = (state: any, action: { type: string; payload: any; }) => {
                 ...state,
                 theme: action.payload
             }
-        case 'SET_INTRO':
+        case 'SET_REGISTER':
+            
             return {
                 ...state,
-                intro: action.payload
-            }
+                user: action.payload
+            } 
+            
         default:
             return state;
     }

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Buttons from "../components/Buttons";
 import Card from "../components/Card";
 import Form from "../components/Form";
-import { StateModel } from "../models/stateModel";
+import { StateModel } from "../models/state-model";
 import { DarkColors } from "../utils/Colors";
 
 

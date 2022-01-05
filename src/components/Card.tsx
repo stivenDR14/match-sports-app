@@ -2,7 +2,7 @@ import { animated, useSpring } from "@react-spring/web";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled, { css } from "styled-components";
-import { StateModel } from "../models/stateModel";
+import { StateModel } from "../models/state-model";
 import Buttons from "./Buttons";
 import Form from "./Form";
 
@@ -66,7 +66,7 @@ const Card : React.FC<CardProps> = ({ theme, intro, title, subtitle }) => {
       style={
           styles
       }>
-      <Form title="Welcome!" subtitle="Login and enjoy from the app c:"/>
+      <Form title="Welcome!" subtitle="If you not are Register, you'll be registered, else you'll do login"/>
       </animated.div>
   )
 }
