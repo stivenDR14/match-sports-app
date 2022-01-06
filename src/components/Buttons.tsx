@@ -5,9 +5,42 @@ import { StateModel } from "../models/state-model";
 import { useSpring, animated, Spring } from "react-spring";
 import { setTheme } from "../actions";
 import { DarkColors, LightColors } from "../utils/Colors";
-import { setInterval } from "timers";
 
 const buttonTypes=["login","theme"]
+
+
+const ButtonTheme=styled.div`
+    position: absolute;
+    width: 62px;
+    height: 63px;
+    right: 21px;
+    top: 22px;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2rem;
+    background: ${props => (props.theme ? props.theme["Background2"]: DarkColors["Background2"])};
+    border-radius: 18px;
+  `;
+  const ButtonLogin = styled.div`
+    background-image: linear-gradient(99deg, ${props => (props.theme ? props.theme["GradentLeft"]: DarkColors["GradentLeft"])} 6.69%, ${props => (props.theme ? props.theme["GradentRight"]: DarkColors["GradentRight"])} 88.95%)}
+    border-radius: 25px;
+    margin: 4vh 5vw;
+    padding: 22px 38px;
+    width: 5vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    color: ${props => (props.theme ? props.theme["SecondaryText"]: DarkColors["SecondaryText"])};
+    font-size: 1.1rem;
+    box-shadow: 0px 4px 30px rgba(34, 105, 251, 0.8);
+    position: absolute;
+    bottom: 0vh;
+    z-index: 20;
+    `;
 
 interface ButtonProps extends StateModel {
   theme?: any,
@@ -17,10 +50,11 @@ interface ButtonProps extends StateModel {
   setTheme?: any,
   setIntro?: any,
   loginCallback?: Function,
+  isLogin?:boolean
 }
 
 
-const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setTheme, setIntro, loginCallback=()=>{} }) => {
+const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, loginCallback=()=>{} }) => {
 
     const [styles, api] = useSpring(() => ({
         scale: 1,
@@ -37,48 +71,27 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setThem
     })
       
 
-    const ButtonTheme=styled.div`
-    position: absolute;
-    width: 62px;
-    height: 63px;
-    right: 21px;
-    top: 22px;
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 2rem;
-    background: ${theme["Background2"]};
-    border-radius: 18px;
-  `;
-  const ButtonLogin = styled.div`
-    background-image: linear-gradient(99deg, ${theme["GradentLeft"]} 6.69%, ${theme["GradentRight"]} 88.95%)}
-    border-radius: 25px;
-    margin: 7vh 20px;
-    padding: 22px 38px;
-    width: 5vh;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    font-weight: bold;
-    color: ${theme["SecondaryText"]};
-    font-size: 1.1rem;
-    box-shadow: 0px 4px 30px rgba(34, 105, 251, 0.8);
-    `;
+    
   switch (type) {
       case 0:
         return (
             <animated.div
                 onMouseDown={()=> {
-                      setTimeout(loginCallback, 0)
-                        
-                       api.start({ scale: 1.1, y: -8, opacity: 0.4})
+                      if(isLogin){
+                        setTimeout(loginCallback, 0)
+                      }
+                      
+                      if(!isLogin){
+                        api.start({ y: -78})
+                      }else{
+                        api.start({ scale: 1.1, y: -78, opacity: 0.4})
+                      }
+                       
                 }}
-                onMouseLeave={()=> api.start({ scale: 1, y:0, opacity: 1})}
+                onMouseLeave={()=> api.start({ scale: 1, y:-78, opacity: 1})}
                 style={styles}
             >
-                <ButtonLogin>{text}</ButtonLogin>
+                <ButtonLogin theme={theme}>{text}</ButtonLogin>
             </animated.div>
         )
       case 1:
@@ -90,7 +103,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setThem
                 <animated.div
                     style={{ opacity: opacity.to(o => 1 - o), transform }}
                 >
-                    <ButtonTheme >{text}</ButtonTheme>
+                    <ButtonTheme theme={theme}>{text}</ButtonTheme>
                 </animated.div>
                 <animated.div
                     style={{
@@ -99,7 +112,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text, iconPath, type, setThem
                     rotateX: '180deg',
                     }}
                 >
-                    <ButtonTheme >{text}</ButtonTheme>
+                    <ButtonTheme theme={theme}>{text}</ButtonTheme>
                 </animated.div>
             </div>
         )

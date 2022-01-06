@@ -5,13 +5,7 @@ import { StateModel } from "../models/state-model"
 import { DarkColors } from "../utils/Colors";
 import '../utils/styles.css';
 
-interface alertProps extends AlertComponentPropsWithStyle{
-    theme?: any
-}
-  
-const AlertTemplate  : React.FC<alertProps> = ({style, options, message, close, theme} ) => {
-    
-    const ButtonClose=styled.div`
+const ButtonClose=styled.div`
     top: 5px;
     right: 5px;
     width: 5vw;
@@ -23,34 +17,41 @@ const AlertTemplate  : React.FC<alertProps> = ({style, options, message, close, 
   `;
 
   const TitleAlert = styled.p`
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     margin-left:2vw;
     margin-right:2vw;
     top:1px;
     left:15px;
     position: absolute;
-    color: ${theme["TitleField"]};
+    color: ${props => (props.theme ? props.theme["TitleField"] : DarkColors["TitleField"])};
   `;
 
   const ContainerAlert= styled.div`
   width: 50vw;
   height: 15vh;
-  background: ${theme["Background2"]};
+  background: ${props => (props.theme ? props.theme["Background2"]: DarkColors["Background2"])};
   font-family: Quicksand, arial, sans-serif;
   border-radius: 35px;
   margin-top:5px;
   margin-bottom:5px;
   position: relative;
 `;
+interface alertProps extends AlertComponentPropsWithStyle{
+    theme?: any
+}
+  
+const AlertTemplate  : React.FC<alertProps> = ({style, options, message, close, theme} ) => {
+    
+    
 
     return(
         <div style= {style}>
-<ContainerAlert>
+<ContainerAlert theme={theme}>
      
-     <TitleAlert> {options.type === 'info' && '❕'}
+     <TitleAlert theme={theme}> {options.type === 'info' && '❕'}
      {options.type === 'success' && '✅'}
      {options.type === 'error' && '🚨'}{message}</TitleAlert>
-   <ButtonClose onClick={close}>x</ButtonClose>
+   <ButtonClose theme={theme} onClick={close}>x</ButtonClose>
    
    
  </ContainerAlert>

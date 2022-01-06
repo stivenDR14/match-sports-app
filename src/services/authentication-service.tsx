@@ -19,24 +19,29 @@ export class Authentication{
     }catch (error:any) {
       console.log("error 1", error.message)
       const errorAux= error.message
-      return errorAux;
+      if(error.message==="Firebase: Error (auth/email-already-in-use)."){
+        const user= await this.login()
+        return user
+      }else{
+        return errorAux;
+      }
+      
 
     }
     
 }
 
-public login():any{
-    signInWithEmailAndPassword(auth, this.email, this.password)
-    .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        return user;
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        return null;
-    });
+public async login():Promise<any>{
+  try {
+    const userCredential=await signInWithEmailAndPassword(auth, this.email, this.password)
+    const user = userCredential.user;
+    return user;
+  } catch (error:any) {
+    console.log("error 1", error.message)
+    const errorAux= error.message
+    return errorAux;
+  }
+   
 }
 
 }
