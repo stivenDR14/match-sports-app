@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +81,7 @@ function Login(props:any) {
     return (
         <div>
             <div >
-                <Buttons type={1} text={props.theme==DarkColors?"🌤️":"🌙"}/>
+                <Buttons type={1} text={props.theme===DarkColors?"🌤️":"🌙"}/>
             </div>
             {!isLogin?<MainPhoto theme={props.theme} src="/assets/main_image.png"/>: <div >
             </div>}

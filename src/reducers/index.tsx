@@ -1,5 +1,3 @@
-import { StateModel } from "../models/state-model"
-import { Authentication } from "../services/authentication-service"
 import { InitialState } from "../store/configuration"
 
 const reducer = (state= InitialState, action: { type: string; payload: any; }) => {
@@ -15,7 +13,7 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
                 error: '',
                 loading: true,
             } 
-        case 'SET_LOGIN':
+        case 'SET_LOADING':
         
         return {
             ...state,
@@ -31,14 +29,22 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
             error: '',
             user: action.payload,
         } 
+
+        case 'SET_SPORTS_SUCCESS':
+    
+        return {
+            ...state,
+            loading: false,
+            error: '',
+            sports: action.payload,
+        } 
         
-        case 'SET_USER_ERROR':
+        case 'SET_ERROR':
     
         return {
             ...state,
             loading: false,
             error: action.payload,
-            user: null,
         } 
         
         default:

@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { Routes, Route, BrowserRouter, Link, Outlet } from "react-router-dom";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 import Data from "./pages/Data";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -32,7 +32,10 @@ function App() {
                 } />
               <Route path="/" element={<Menu/>}>
                 
-                <Route path="/home" element={<Home/>} />
+                <Route path="/home" element={
+                <ProviderAlert template={AlertTemplate} {...options}>
+                  <Home/>
+                 </ProviderAlert>} />
                 <Route path="/data" element={<Data/>} />
                 <Route path="/news" element={<News/>} />
               </Route>

@@ -1,13 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { connect} from "react-redux";
+import React from "react";
 import styled from "styled-components";
 import { StateModel } from "../models/state-model";
-import Buttons from "./Buttons";
 import '../utils/styles.css';
-import { useAlert } from "react-alert";
-import { fetchRegister, setRegister } from "../actions";
-import { LoginModel } from "../models/login-model";
-import { useNavigate } from "react-router-dom";
 import { DarkColors } from "../utils/Colors";
 
 interface FormProps extends StateModel {

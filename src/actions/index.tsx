@@ -1,5 +1,6 @@
 import { LoginModel } from "../models/login-model"
 import { Authentication } from "../services/authentication-service"
+import { SportsApi } from "../services/sports-service"
 
 export const setTheme = (payload: any) =>({
     type: 'SET_THEME',
@@ -7,18 +8,11 @@ export const setTheme = (payload: any) =>({
 })
 
 
-export const setRegister = () =>{    
+export const setLoading = () =>{    
     return {
-        type: 'SET_REGISTER',
+        type: 'SET_LOADING',
     }
 }
-
-export const setLogin = () =>{
-    return {
-        type: 'SET_LOGIN',
-    }
-}
-
 
 export const setUserSuccess= (user:any) =>{
     return {
@@ -27,9 +21,16 @@ export const setUserSuccess= (user:any) =>{
     }
 }
 
-export const setUserError = (error: string) =>{
+export const setSportsSuccess= (user:any) =>{
     return {
-        type: 'SET_USER_ERROR',
+        type: 'SET_SPORTS_SUCCESS',
+        payload: user,
+    }
+}
+
+export const setError = (error: string) =>{
+    return {
+        type: 'SET_ERROR',
         payload:error
     }
 }
@@ -37,25 +38,42 @@ export const setUserError = (error: string) =>{
 // async actions
 export const fetchRegister=(payload: LoginModel)=>{
     return async(dispatch:any) => {
-        dispatch(setRegister())
+        dispatch(setLoading())
         const authLogin=new Authentication(payload.email, payload.password)
         try {
             const user=await authLogin.register()
             if(user===null) {
-                dispatch(setUserError("User is not identified"))
+                dispatch(setError("User is not identified"))
               }else if(typeof(user)==="string"){
-                dispatch(setUserError(user))
+                dispatch(setError(user))
               }
               else{
                 dispatch(setUserSuccess(user))                   
               }
         } catch (error:any) {
-            dispatch(setUserError(error));
+            dispatch(setError(error));
         }
         
         
     }
 }
+
+
+export const fetchGetSports=()=>{
+    return async(dispatch:any) => {
+        dispatch(setLoading())
+        const sportsApi=new SportsApi()
+        try {
+            const sports=await sportsApi.getSports()
+            dispatch(setSportsSuccess(sports))   
+        } catch (error:any) {
+            dispatch(setError(error));
+        }
+        
+        
+    }
+}
+
 
 
 

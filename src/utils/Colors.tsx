@@ -12,6 +12,7 @@ export enum DarkColors{
     MenuIcon="#181828",
     DislikeButton="#222243",
     NotIcon="#FFFFFF",
+    BackgroundMini="#22224366",
     BorderFieldStyle=" 1px solid rgba(255, 255, 255, 0.06)"
 }
 
@@ -29,5 +30,6 @@ export enum LightColors{
     MenuIcon="#EDEDED",
     DislikeButton="#FFFFFF",
     NotIcon="#D36060",
+    BackgroundMini="#22224366",
     BorderFieldStyle="1px solid rgba(0, 0, 0, 0.06)"
 }
