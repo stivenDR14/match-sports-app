@@ -11,3 +11,21 @@
 .spacer{
   height:15vh;
 }
+
+.navbar-icon{
+  width: 6vw;
+  padding-top: 2vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+.notlike-icon{
+  padding-left: 15px;
+  padding-top: 2vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}

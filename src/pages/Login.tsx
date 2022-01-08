@@ -53,7 +53,7 @@ function Login(props:any) {
     }
     if(props.user){
       setTimeout(() => {
-        navigate("/home");
+        navigate("/home", { replace: true });
       }, 1000);
     }
 
@@ -83,7 +83,8 @@ function Login(props:any) {
             <div >
                 <Buttons type={1} text={props.theme==DarkColors?"🌤️":"🌙"}/>
             </div>
-            <MainPhoto theme={props.theme} src="/assets/main_image.png"/>
+            {!isLogin?<MainPhoto theme={props.theme} src="/assets/main_image.png"/>: <div >
+            </div>}
 
             {!isLogin?
             <Card title="Welcome to your favorite sports" subtitle="Discover diferent sports and save it!" theme={props.theme}/>
@@ -97,20 +98,20 @@ function Login(props:any) {
               onPassChange={onPassChange} password={values.password}/>
               </animated.div>}
 
-              <div 
-              onClick={()=>{
-                if(!isLogin){
-                  setisLogin(!isLogin)
-                }                
-                api.start({opacity: 1, delay: 500})
-              }}>
-                <Buttons type={0} text="login" isLogin={isLogin} loginCallback={()=>{
+                <Buttons type={0} text="login" isLogin={isLogin} 
+                notLoginCallback={()=>{
+                  console.log(isLogin)
+                  if(!isLogin){
+                    setisLogin(!isLogin)
+                  }                
+                  api.start({opacity: 1, delay: 500})
+                }}
+                loginCallback={()=>{
                   const loginModel: LoginModel={
                     email: values.email,
                     password: values.password
                   }
-                  props.fetchRegister(loginModel)}}/>
-              </div>     
+                  props.fetchRegister(loginModel)}}/>   
         </div>);
   }
   

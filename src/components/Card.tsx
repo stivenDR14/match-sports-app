@@ -10,7 +10,7 @@ position: absolute;
 padding: 0 0 32px;
 margin: 48px auto 0;
 background: ${props => (props.theme ? props.theme["Background2"]: DarkColors["Background2"])};
-z-index:10;
+z-index:0;
 width: 100%;
 height:35vh;
 bottom: 0vh; 

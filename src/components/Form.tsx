@@ -85,7 +85,11 @@ export const Form : React.FC<FormProps> = ({ theme, title, subtitle, email, onEm
               
               <div style={{
                   background: theme["Background1"],
-                  height: "100vh"
+                  height: "100vh",
+                  width: "100%",
+                  position: "absolute",
+                  zIndex: -1,
+                  top: 0
               }}>
                 <div className="spacer"></div>
                 <FormHeader theme={theme}>{title}</FormHeader>

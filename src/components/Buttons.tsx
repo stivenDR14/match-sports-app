@@ -5,16 +5,17 @@ import { StateModel } from "../models/state-model";
 import { useSpring, animated, Spring } from "react-spring";
 import { setTheme } from "../actions";
 import { DarkColors, LightColors } from "../utils/Colors";
+import { svgIconProps } from "../models/svg-model";
 
-const buttonTypes=["login","theme"]
+const buttonTypes=["login","theme", "like", "dislike"]
 
 
 const ButtonTheme=styled.div`
     position: absolute;
     width: 62px;
     height: 63px;
-    right: 21px;
-    top: 22px;
+    ${props => (props.itemScope ? "right": "left")}: 40px;
+    top: 15px;
     justify-content: center;
     display: flex;
     flex-direction: row;
@@ -37,10 +38,53 @@ const ButtonTheme=styled.div`
     color: ${props => (props.theme ? props.theme["SecondaryText"]: DarkColors["SecondaryText"])};
     font-size: 1.1rem;
     box-shadow: 0px 4px 30px rgba(34, 105, 251, 0.8);
-    position: absolute;
-    bottom: 0vh;
     z-index: 20;
     `;
+
+    const ButtonLike = styled.div`
+    background-image: linear-gradient(99deg, ${props => (props.theme ? props.theme["GradentLeft"]: DarkColors["GradentLeft"])} 6.69%, ${props => (props.theme ? props.theme["GradentRight"]: DarkColors["GradentRight"])} 88.95%)}
+    border-radius: 10vh;
+    margin: 4vh 5vw;
+    position: absolute;
+    left: 45vw;
+    top: 60vh;
+    height: 10vh;
+    width: 10vh;
+    box-shadow: 0px 10px 25px rgba(35, 107, 254, 0.2);
+    z-index: 20;
+    `;
+    const ButtonDislike = styled.div`
+    background: ${props => (props.theme ? props.theme["DislikeButton"]: DarkColors["DislikeButton"])};
+    border-radius: 10vh;
+    margin: 4vh 5vw;
+    position: absolute;
+    left: 26vw;
+    top: 62vh;
+    height: 7vh;
+    width: 7vh;
+    z-index: 20;
+    0px 10px 25px rgba(0, 0, 0, 0.08)
+    `;
+    const LogoLike = styled.img`
+    height: 4vh;
+    width: auto;
+    left: 3vh;
+    top: 3vh;
+    object-fit: contain;
+    position: relative;
+    z-index: 30;
+    `;
+
+    const NotIcon = (props:svgIconProps) => {
+      return (
+        <div className="notlike-icon">
+         <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.998921 0.998837C1.59792 0.399837 2.56909 0.399837 3.16809 0.998837L7.86796 5.6987L12.5678 0.998837C13.1668 0.399838 14.138 0.399837 14.737 0.998837C15.336 1.59784 15.336 2.56901 14.737 3.16801L10.0371 7.86787L14.737 12.5677C15.336 13.1667 15.336 14.1379 14.737 14.7369C14.138 15.3359 13.1668 15.3359 12.5678 14.7369L7.86796 10.037L3.16809 14.7369C2.56909 15.3359 1.59792 15.3359 0.998921 14.7369C0.399921 14.1379 0.399921 13.1667 0.998921 12.5677L5.69879 7.86787L0.998921 3.16801C0.399921 2.56901 0.399921 1.59784 0.998921 0.998837Z" fill={props.fill}/>
+        </svg>
+
+        </div>
+      );
+    }
 
 interface ButtonProps extends StateModel {
   theme?: any,
@@ -50,18 +94,34 @@ interface ButtonProps extends StateModel {
   setTheme?: any,
   setIntro?: any,
   loginCallback?: Function,
-  isLogin?:boolean
+  isLogin?:boolean,
+  isLeft?:boolean,
+  notLoginCallback?: Function,
 }
 
 
-const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, loginCallback=()=>{} }) => {
+const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, isLeft=true, loginCallback=()=>{}, notLoginCallback=()=>{} }) => {
 
-    const [styles, api] = useSpring(() => ({
+    const [stylesLogin, apiLogin] = useSpring(() => ({
         scale: 1,
-        y:0,
+        y: 550,
         opacity: 1,
-        width: "5vh"
+        width: "5vh",
       }))
+
+    const [stylesLike, apiLike] = useSpring(() => ({
+      scale: 1,
+      y: 0,
+      opacity: 1,
+      width: "5vh",
+    }))
+
+    const [stylesDislike, apiDislke] = useSpring(() => ({
+      scale: 1,
+      y: 0,
+      opacity: 1,
+      width: "5vh",
+    }))
 
     const [flipped, setFlipped] = useState(false)
     const { transform, opacity } = useSpring({
@@ -76,20 +136,23 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
       case 0:
         return (
             <animated.div
-                onMouseDown={()=> {
+                onMouseUp={()=> {
                       if(isLogin){
                         setTimeout(loginCallback, 0)
+                      }else{
+                        setTimeout(notLoginCallback, 0)
+                        
                       }
                       
                       if(!isLogin){
-                        api.start({ y: -78})
+                        apiLogin.start({ y: 450,})
                       }else{
-                        api.start({ scale: 1.1, y: -78, opacity: 0.4})
+                        apiLogin.start({ scale: 1.1, y: 450, opacity: 0.4})
                       }
                        
                 }}
-                onMouseLeave={()=> api.start({ scale: 1, y:-78, opacity: 1})}
-                style={styles}
+                onMouseLeave={()=> apiLogin.start({ scale: 1, y: 450, opacity: 1})}
+                style={stylesLogin}
             >
                 <ButtonLogin theme={theme}>{text}</ButtonLogin>
             </animated.div>
@@ -103,7 +166,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
                 <animated.div
                     style={{ opacity: opacity.to(o => 1 - o), transform }}
                 >
-                    <ButtonTheme theme={theme}>{text}</ButtonTheme>
+                    <ButtonTheme theme={theme} itemScope={isLeft}>{text}</ButtonTheme>
                 </animated.div>
                 <animated.div
                     style={{
@@ -117,6 +180,33 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
             </div>
         )
   
+      case 2:
+        return (
+          <animated.div
+              onMouseUp={()=> {
+                apiLike.start({ scale: 1.3, y: -200, opacity: 1})
+              }}
+              onMouseLeave={()=> apiLike.start({ scale: 1, y: 0, opacity: 1})}
+              style={stylesLike}
+          >
+              <ButtonLike theme={theme}><LogoLike src="/assets/heart.png"/></ButtonLike>
+
+          </animated.div>
+        )
+
+      case 3:
+        return (
+          <animated.div
+              onMouseUp={()=> {
+                apiDislke.start({ scale: 0.8, y: 140, opacity: 0.4})
+              }}
+              onMouseLeave={()=> apiDislke.start({ scale: 1, y: 10, opacity: 1})}
+              style={stylesDislike}
+          >
+              <ButtonDislike theme={theme}><NotIcon fill={theme["NotIcon"]}/></ButtonDislike>
+
+          </animated.div>
+        )
       default:
           return null;
   }

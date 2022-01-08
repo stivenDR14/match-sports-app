@@ -9,6 +9,9 @@ export enum DarkColors{
     TextButton="#FEFEFE",
     SelectedButton="#1F1F31",
     TitleField="#FEFEFE",
+    MenuIcon="#181828",
+    DislikeButton="#222243",
+    NotIcon="#FFFFFF",
     BorderFieldStyle=" 1px solid rgba(255, 255, 255, 0.06)"
 }
 
@@ -23,5 +26,8 @@ export enum LightColors{
     TextButton="#FEFEFE",
     SelectedButton="#FBFBFB",
     TitleField="#3C3C3C",
+    MenuIcon="#EDEDED",
+    DislikeButton="#FFFFFF",
+    NotIcon="#D36060",
     BorderFieldStyle="1px solid rgba(0, 0, 0, 0.06)"
 }
