@@ -53,6 +53,21 @@ const ButtonTheme=styled.div`
     box-shadow: 0px 10px 25px rgba(35, 107, 254, 0.2);
     z-index: 20;
     `;
+
+    const ButtonBackLike = styled.div`
+    background: ${props => props.theme ? props.theme["Background1"]: DarkColors["Background1"]};
+    border-radius: 10vh;
+    margin: 4vh 5vw;
+    position: absolute;
+    left: 36vw;
+    top: 55vh;
+    height: 15vh;
+    width: 15vh;
+    border: 15px solid ${props => props.theme ? props.theme["Background2"]: DarkColors["Background2"]};
+    box-shadow: 0px 10px 25px rgba(35, 107, 254, 0.2);
+    z-index: 20;
+    `;
+
     const ButtonDislike = styled.div`
     background: ${props => (props.theme ? props.theme["DislikeButton"]: DarkColors["DislikeButton"])};
     border-radius: 10vh;
@@ -97,10 +112,11 @@ interface ButtonProps extends StateModel {
   isLogin?:boolean,
   isLeft?:boolean,
   notLoginCallback?: Function,
+  isLiked?:boolean,
 }
 
 
-const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, isLeft=true, loginCallback=()=>{}, notLoginCallback=()=>{} }) => {
+const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, isLeft=true, isLiked=false, loginCallback=()=>{}, notLoginCallback=()=>{} }) => {
 
     const [stylesLogin, apiLogin] = useSpring(() => ({
         scale: 1,
@@ -112,6 +128,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
     const [stylesLike, apiLike] = useSpring(() => ({
       scale: 1,
       y: 0,
+      x:0,
       opacity: 1,
       width: "5vh",
     }))
@@ -130,7 +147,14 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
     config: { mass: 5, tension: 500, friction: 80 },
     })
       
-
+    const multiAnimation = useSpring({
+      from: { scale: isLiked?1: 1, x:0, y:0 },
+      to: [
+          { scale:isLiked?1.2: 1.2, x:-40, y:-110},
+          { scale: isLiked?1:1, x:0, y:0},
+      ],
+      duration: 2000
+    });
     
   switch (type) {
       case 0:
@@ -184,11 +208,15 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
         return (
           <animated.div
               onMouseUp={()=> {
-                apiLike.start({ scale: 1.3, y: -200, opacity: 1})
+                apiLike.start({ scale: 1.3, y: -350, x: -90, opacity: 1})
               }}
-              onMouseLeave={()=> apiLike.start({ scale: 1, y: 0, opacity: 1})}
+              onMouseLeave={()=> apiLike.start({ scale: 1, y: 0, x:0, opacity: 1})}
               style={stylesLike}
           >
+            {isLiked? <animated.div
+              
+              style={multiAnimation}
+          ><ButtonBackLike theme={theme} ></ButtonBackLike> </animated.div>: <div ></div>}
               <ButtonLike theme={theme}><LogoLike src="/assets/heart.png"/></ButtonLike>
 
           </animated.div>

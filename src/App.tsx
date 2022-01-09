@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route, BrowserRouter, useLocation} from "react-router-dom";
 import Data from "./pages/Data";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,7 +9,7 @@ import { positions, Provider as ProviderAlert } from "react-alert";
 import  AlertTemplate  from "./components/Alert";
 import  Menu  from "./components/Menu";
 import News from "./pages/News";
-
+import { useTransition, animated } from 'react-spring';
 
 const options = {
   timeout: 1500,
@@ -18,12 +18,21 @@ const options = {
 };
 
 function App() {
-  return (
-    <Provider store={store}>
-     
-      <BrowserRouter>
-        <div>
-          <Routes>
+
+  const location = useLocation()
+  
+  const transitions = useTransition(location, {
+    from: { opacity: 0},
+    enter: { opacity: 1},
+    leave: { opacity: 0},
+  })
+
+  console.log(transitions)
+
+  return transitions((props, item) => (
+        <animated.div
+          style={props} >
+          <Routes location={item}>
               
               <Route path="/login" element={
                   <ProviderAlert template={AlertTemplate} {...options}>
@@ -42,14 +51,8 @@ function App() {
               
               <Route path="*" element={<NotFound/>} />
             </Routes>
-        </div>
-            
-      </BrowserRouter>
-      
-      
-    </Provider>
-    
-  );
+        </animated.div>
+      ))
 }
 
 

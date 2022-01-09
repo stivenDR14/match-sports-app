@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled, { css } from "styled-components";
 import { StateModel } from "../models/state-model";
-import { useSpring, animated, Spring } from "react-spring";
+import { useSpring, animated, Spring, SpringValue } from "react-spring";
 import { setTheme } from "../actions";
 import { DarkColors, LightColors } from "../utils/Colors";
 import { svgIconProps } from "../models/svg-model";
@@ -17,7 +17,6 @@ background-image: url(${props => (props.title ? props.title: "")});
 background-position: center;
 background-size: cover;
 background-repeat: no-repeat;
-z-index:0;
 width: 100%;
 height:55vh;
 top:-7vh;
@@ -36,7 +35,6 @@ const MiniContainer=styled.div`
     flex-direction: row;
     align-items: center;
     font-size: 2rem;
-    z-index: 30;
     background: ${DarkColors["BackgroundMini"]};
     border-radius: 18px;
   `;
@@ -49,17 +47,17 @@ top: 1%;
 left: 1%;
 object-fit: contain;
 position: relative;
-z-index: 30;
 `;
 
 interface SwiperProps extends StateModel {
   theme?: any,
+  animation: any,
   imageBig: string,
   imageShort: string,
 }
 
 
-export const Swiper : React.FC<SwiperProps> = ({ theme, imageBig, imageShort}) => {
+export const Swiper : React.FC<SwiperProps> = ({ theme, animation, imageBig, imageShort}) => {
 
     const [styles, setStyles] = useSpring(() => ({
         scale: 1,
@@ -79,9 +77,13 @@ export const Swiper : React.FC<SwiperProps> = ({ theme, imageBig, imageShort}) =
     return (
         <animated.div
         >
+            <div style={{zIndex:1}}>             
+            <animated.div style={animation} >
+                <Container theme={theme} title={imageBig}></Container> 
+            </animated.div>
             <MiniContainer><MiniImage src={imageShort} /></MiniContainer>
+            </div>
             
-            <Container theme={theme} title={imageBig}></Container>
         </animated.div>
     )
   
