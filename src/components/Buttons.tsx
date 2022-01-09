@@ -125,20 +125,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
         width: "5vh",
       }))
 
-    const [stylesLike, apiLike] = useSpring(() => ({
-      scale: 1,
-      y: 0,
-      x:0,
-      opacity: 1,
-      width: "5vh",
-    }))
-
-    const [stylesDislike, apiDislke] = useSpring(() => ({
-      scale: 1,
-      y: 0,
-      opacity: 1,
-      width: "5vh",
-    }))
+    
 
     const [flipped, setFlipped] = useState(false)
     const { transform, opacity } = useSpring({
@@ -146,8 +133,8 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 },
     })
-      
-    const multiAnimation = useSpring({
+
+    const multiAnimation= useSpring({
       from: { scale: isLiked?1: 1, x:0, y:0 },
       to: [
           { scale:isLiked?1.2: 1.2, x:-40, y:-110},
@@ -155,6 +142,8 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
       ],
       duration: 2000
     });
+    
+      
     
   switch (type) {
       case 0:
@@ -206,34 +195,21 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
   
       case 2:
         return (
-          <animated.div
-              onMouseUp={()=> {
-                apiLike.start({ scale: 1.3, y: -350, x: -90, opacity: 1})
-              }}
-              onMouseLeave={()=> apiLike.start({ scale: 1, y: 0, x:0, opacity: 1})}
-              style={stylesLike}
-          >
+          <div>
             {isLiked? <animated.div
               
               style={multiAnimation}
           ><ButtonBackLike theme={theme} ></ButtonBackLike> </animated.div>: <div ></div>}
               <ButtonLike theme={theme}><LogoLike src="/assets/heart.png"/></ButtonLike>
 
-          </animated.div>
+          </div>
+            
         )
 
       case 3:
         return (
-          <animated.div
-              onMouseUp={()=> {
-                apiDislke.start({ scale: 0.8, y: 140, opacity: 0.4})
-              }}
-              onMouseLeave={()=> apiDislke.start({ scale: 1, y: 10, opacity: 1})}
-              style={stylesDislike}
-          >
-              <ButtonDislike theme={theme}><NotIcon fill={theme["NotIcon"]}/></ButtonDislike>
+          <ButtonDislike theme={theme}><NotIcon fill={theme["NotIcon"]}/></ButtonDislike>
 
-          </animated.div>
         )
       default:
           return null;
