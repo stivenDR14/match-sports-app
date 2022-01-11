@@ -1,0 +1,25 @@
+{
+  "name": "🏀Leage Matcher",
+  "short_name": "🏀LM⚽",
+
+  "dir": "ltr",
+
+  "lang": "en-US",
+
+  "orientation": "portrait",
+  "start_url": "/",
+  "background_color": "#2C2B3E",
+  "theme_color": "#2C2B3E",
+  "display": "standalone",
+  "description": "The best matcher for your favorite Leages.",
+  "icons": [
+    {
+      "src": "/sports.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/sports.png",
+      "sizes": "512x512"
+    }
+  ]
+}

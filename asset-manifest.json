@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/match-sports-app/static/css/main.2372fa0f.css",
+    "main.js": "/match-sports-app/static/js/main.092aafe4.js",
+    "static/js/787.d997ed58.chunk.js": "/match-sports-app/static/js/787.d997ed58.chunk.js",
+    "index.html": "/match-sports-app/index.html",
+    "main.2372fa0f.css.map": "/match-sports-app/static/css/main.2372fa0f.css.map",
+    "main.092aafe4.js.map": "/match-sports-app/static/js/main.092aafe4.js.map",
+    "787.d997ed58.chunk.js.map": "/match-sports-app/static/js/787.d997ed58.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2372fa0f.css",
+    "static/js/main.092aafe4.js"
+  ]
+}
