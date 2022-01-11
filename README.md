@@ -6,6 +6,7 @@ If you want to use an user with data saved, use the next credentials:
 
 email: el_inge101@yopmail.com and password: abc_123
 
+## IMPORTANT! IF YOU REGISTER AT THE FIRST TIME, YOU'LL ACCESS TO APP, BUT YOU MUST LGOUT AND LOGIN AGAIN FOR RENEW THE TOKEN AND SET DATA IN FIRESTORE
 
 There you can navigate across 4 pages, the Login, where you register and continue, the Home, where you like or not like leagues, the history, where you see the data that is saved about the matches and not matches logged, and the options page, where you can change the country and the sport that you want to see in home.
 
