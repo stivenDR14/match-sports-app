@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# Getting Started with Leagues Match
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+For Use the aplication, just login with your own email, if you haven't logged before, don't worry, the app create your user when is your first login.
+
+If you want to use an user with data saved, use the next credentials: 
+
+email: el_inge101@yopmail.com and password: abc_123
+
+
+There you can navigate across 4 pages, the Login, where you register and continue, the Home, where you like or not like leagues, the history, where you see the data that is saved about the matches and not matches logged, and the options page, where you can change the country and the sport that you want to see in home.
+
+the last button in the menu is for log out from the session.
 
 ## Available Scripts
 
@@ -14,10 +23,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -39,7 +44,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## About the documentation...
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
