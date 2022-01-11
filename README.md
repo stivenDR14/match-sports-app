@@ -11,6 +11,8 @@ There you can navigate across 4 pages, the Login, where you register and continu
 
 the last button in the menu is for log out from the session.
 
+Access in teh next link: https://stivendr14.github.io/match-sports-app/#/login
+
 ## Available Scripts
 
 In the project directory, you can run:
