@@ -8,11 +8,11 @@ import { store } from "./store/configuration";
 import { positions, Provider as ProviderAlert } from "react-alert";
 import  AlertTemplate  from "./components/Alert";
 import  Menu  from "./components/Menu";
-import News from "./pages/News";
+import Options from "./pages/Options";
 import { useTransition, animated } from 'react-spring';
 
 const options = {
-  timeout: 1500,
+  timeout: 3000,
   position: positions.TOP_CENTER,
   offset: '10px',
 };
@@ -39,15 +39,24 @@ function App() {
                     <Login/>
                   </ProviderAlert>
                 } />
-              <Route path="/" element={<Menu/>}>
+              
+              <Route path="/" element={
+                <ProviderAlert template={AlertTemplate} {...options}>
+                  <Menu/>
+                </ProviderAlert>
+                }>
                 
                 <Route path="/home" element={
                 <ProviderAlert template={AlertTemplate} {...options}>
                   <Home/>
                  </ProviderAlert>} />
                 <Route path="/data" element={<Data/>} />
-                <Route path="/news" element={<News/>} />
+                <Route path="/options" element={
+                <ProviderAlert template={AlertTemplate} {...options}>
+                  <Options/>
+                </ProviderAlert>} />
               </Route>
+              
               
               <Route path="*" element={<NotFound/>} />
             </Routes>

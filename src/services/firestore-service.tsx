@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, Firestore, setDoc, doc, arrayUnion } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, Firestore, setDoc, doc, arrayUnion, updateDoc } from 'firebase/firestore/lite';
 import { appFirebase } from '../endpoints/firebase-config';
 import { getAuth, createUserWithEmailAndPassword, User, signInWithEmailAndPassword } from "firebase/auth";
 import { DocumentModel } from '../models/document-model';
@@ -29,19 +29,31 @@ export class Database{
     let year = date.getFullYear()
     let currentDate="";
     if(month < 10){
-      currentDate=`${year}0${month}${day}`
+      if(day < 10){
+        currentDate=`${year}0${month}0${day}`
+      }else{
+        currentDate=`${year}0${month}${day}`
+      }
+      
     }else{
       currentDate=`${year}${month}${day}`
     }
     try {
-      await setDoc(doc(db, "sports", this.uid), {
-        [currentDate]: arrayUnion(data),
+      console.log("subiendo..", data)
+      await updateDoc(doc(db, "sports", this.uid), {
+        [currentDate]: arrayUnion(JSON.parse(JSON.stringify(data))),
       });
       return true;
     } catch (error:any) {
-      console.log("error 1", error.message)
+      console.log("error 1", error)
+      if(error.code==="not-found"){
+        await setDoc(doc(db, "sports", this.uid), {
+          [currentDate]: arrayUnion(JSON.parse(JSON.stringify(data))),
+        });
+      }
+      
       const errorAux= error.message
-      return errorAux;
+      throw(errorAux); 
     }
     
   }

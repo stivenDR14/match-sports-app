@@ -9,6 +9,8 @@ export const InitialState:StateModel={
     user: null,
     error:'',
     loading:false,
+    sport: "Soccer",
+    country: "Brazil",
 }
 
 const _applyMiddleware = applyMiddleware

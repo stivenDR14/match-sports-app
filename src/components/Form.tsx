@@ -30,7 +30,7 @@ const InputForm = styled.input`
   `;
 
 
-  const FormHeader = styled.header`
+export  const FormHeader = styled.header`
   padding-left: 5vw;
   padding-right: 5vw;
   font-weight: bold;
@@ -43,7 +43,7 @@ const InputForm = styled.input`
   align-items: center;
   padding-bottom: 10px;
   `;
-const FormTitle = styled.header`
+export const FormTitle = styled.header`
 padding-left: 5vw;
 padding-right: 5vw;
 justify-content: center;
@@ -64,7 +64,7 @@ padding-bottom: 10px;
 
 
 
-const FieldTitle = styled.p`
+export const FieldTitle = styled.p`
   font-size: 0.7rem;
   position: absolute;
   top: 10px;

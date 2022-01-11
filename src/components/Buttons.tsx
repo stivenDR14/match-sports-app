@@ -6,6 +6,7 @@ import { useSpring, animated, Spring } from "react-spring";
 import { setTheme } from "../actions";
 import { DarkColors, LightColors } from "../utils/Colors";
 import { svgIconProps } from "../models/svg-model";
+import { useNavigate } from "react-router";
 
 const buttonTypes=["login","theme", "like", "dislike"]
 
@@ -90,6 +91,17 @@ const ButtonTheme=styled.div`
     z-index: 30;
     `;
 
+    const BackIcon = (props:svgIconProps) => {
+      return (
+        <div className="navbar-icon">
+         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25.3125 15H4.6875" stroke={props.fill} stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.125 6.5625L4.6875 15L13.125 23.4375" stroke={props.fill} stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      );
+    }
+
     const NotIcon = (props:svgIconProps) => {
       return (
         <div className="notlike-icon">
@@ -113,10 +125,11 @@ interface ButtonProps extends StateModel {
   isLeft?:boolean,
   notLoginCallback?: Function,
   isLiked?:boolean,
+  isMobile?:boolean,
 }
 
 
-const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, isLeft=true, isLiked=false, loginCallback=()=>{}, notLoginCallback=()=>{} }) => {
+const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLogin, isMobile, isLeft=true, isLiked=false, loginCallback=()=>{}, notLoginCallback=()=>{} }) => {
 
     const [stylesLogin, apiLogin] = useSpring(() => ({
         scale: 1,
@@ -125,6 +138,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
         width: "5vh",
       }))
 
+    const navigate = useNavigate();
     
 
     const [flipped, setFlipped] = useState(false)
@@ -135,14 +149,19 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
     })
 
     const multiAnimation= useSpring({
-      from: { scale: isLiked?1: 1, x:0, y:0 },
+      from: { scale: isLiked?1: 1, x:isMobile?0:100, y:isMobile?0:0 },
       to: [
-          { scale:isLiked?1.2: 1.2, x:-40, y:-110},
-          { scale: isLiked?1:1, x:0, y:0},
+          { scale:isLiked?1.2: 1.2, x:isMobile?-40:-20, y:-110},
+          { scale: isLiked?1:1, x:isMobile?0:100, y:isMobile?0:0},
       ],
       duration: 2000
     });
     
+
+    const [backButtonAnimation, setBackButtonAnimation] = useSpring(() => ({
+      scale: 1,
+      opacity: 1,
+    }))
       
     
   switch (type) {
@@ -188,7 +207,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
                     rotateX: '180deg',
                     }}
                 >
-                    <ButtonTheme theme={theme}>{text}</ButtonTheme>
+                    <ButtonTheme theme={theme} itemScope={isLeft}>{text}</ButtonTheme>
                 </animated.div>
             </div>
         )
@@ -209,6 +228,35 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
       case 3:
         return (
           <ButtonDislike theme={theme}><NotIcon fill={theme["NotIcon"]}/></ButtonDislike>
+
+        )
+
+      case 4:
+        return (
+          <div style={{
+            position: "absolute",
+            top:"2vh",
+            left:"10vw"
+          }}
+          onClick={()=>{
+            
+            setTimeout(() => {
+              navigate(-1)
+            }, 200);
+            setBackButtonAnimation(
+              {
+                scale: 0.7,
+                opacity: 0.5,
+              }
+            )
+          }}
+          >
+            <animated.div style={backButtonAnimation}>
+               <BackIcon  fill={theme["PrimaryText"]}></BackIcon>
+            </animated.div>
+           
+          </div>
+          
 
         )
       default:

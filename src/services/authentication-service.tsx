@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, User, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, User, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { appFirebase } from "../endpoints/firebase-config";
 
 const auth = getAuth();
@@ -42,6 +42,18 @@ public async login():Promise<any>{
     return errorAux;
   }
    
+}
+
+public async logout(){
+  const auth = getAuth();
+  try {
+     await signOut(auth)
+     return true;
+  } catch (error:any) {
+    console.log("error 1", error.message)
+    throw(error.message);
+  }
+ 
 }
 
 }

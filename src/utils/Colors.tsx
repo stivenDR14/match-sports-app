@@ -13,6 +13,7 @@ export enum DarkColors{
     DislikeButton="#222243",
     NotIcon="#FFFFFF",
     BackgroundMini="#22224366",
+    IconSelected="#FFFFFF",
     BorderFieldStyle=" 1px solid rgba(255, 255, 255, 0.06)"
 }
 
@@ -31,5 +32,6 @@ export enum LightColors{
     DislikeButton="#FFFFFF",
     NotIcon="#D36060",
     BackgroundMini="#22224366",
+    IconSelected="#2067F8",
     BorderFieldStyle="1px solid rgba(0, 0, 0, 0.06)"
 }

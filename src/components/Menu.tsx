@@ -8,6 +8,8 @@ import Buttons from "./Buttons";
 import '../utils/styles.css';
 import { animated, useSpring, useSprings } from "react-spring";
 import { svgIconProps } from "../models/svg-model";
+import { setLogout } from "../actions";
+import { useAlert } from "react-alert";
 
 
 const DesktopMenu: any= {
@@ -38,8 +40,9 @@ const DesktopMenu: any= {
     `,
     Item: styled.li`
         color: ${props => (props.theme ? props.theme["PrimaryText"] : DarkColors["PrimaryText"])};
-      padding: 0 1rem;
+      padding: 5px 15px;
       cursor: pointer;
+      ${props => (props.slot==="true" ? `border-bottom: 5px solid ${props.theme["MenuIcon"]}`: ``)};
     `
   };
 
@@ -120,7 +123,8 @@ function Menu (props:any){
     const [windowDimension, setWindowDimension] = useState(0);
 
     const location = useLocation()
-
+    const alert = useAlert()
+    
   useEffect(() => {
     setWindowDimension(window.innerWidth)
   }, []);
@@ -138,6 +142,21 @@ function Menu (props:any){
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+  const [contError, setContError]= useState(0)
+  useEffect(() => {
+    if(props.error!='' && contError==1){
+      alert.error(props.error)
+      setContError(0)
+    }
+    if(props.user===null){
+      setTimeout(() => {
+        navigate("/login", { replace: true });
+      }, 1000);
+    }
+
+  },[props.loading, props.error, props.user]);
+
   const isMobile = windowDimension <= 640;
 
     const navigate = useNavigate();
@@ -154,8 +173,14 @@ function Menu (props:any){
 
     const [stylesData, setStylesData] = useSpring(() => (location.pathname==="/data"?objectStyleSelected:objectStyleNormal))
 
-    const [stylesNews, setStylesNews] = useSpring(() => (location.pathname==="/news"?objectStyleSelected:objectStyleNormal))
+    const [stylesNews, setStylesNews] = useSpring(() => (location.pathname==="/options"?objectStyleSelected:objectStyleNormal))
 
+    const logout=()=>{
+      alert.info("Closing session...")
+      setContError(1)
+      props.setLogout()
+      
+    }
     
     
   return (
@@ -174,7 +199,7 @@ function Menu (props:any){
                     }}
                     style={stylesHome}
                 >
-                    <HomeIcon fill={props.theme["MenuIcon"]}/>
+                    <HomeIcon fill={location.pathname==="/home"?props.theme["IconSelected"]:props.theme["MenuIcon"]}/>
                 </animated.div>              
               </MobileMenu.Icon>
               
@@ -189,13 +214,13 @@ function Menu (props:any){
                     }}
                     style={stylesData}
                 >
-                  <HistoryIcon fill={props.theme["MenuIcon"]}/>
+                  <HistoryIcon fill={location.pathname==="/data"?props.theme["IconSelected"]:props.theme["MenuIcon"]}/>
               </animated.div> 
               
               </MobileMenu.Icon>
             </MobileMenu.Item>
-            <MobileMenu.Item onClick={()=>{navigate("/news");}}>
-              <MobileMenu.Icon theme={location.pathname==="/news"?props.theme:''}>
+            <MobileMenu.Item onClick={()=>{navigate("/options");}}>
+              <MobileMenu.Icon theme={location.pathname==="/options"?props.theme:''}>
               <animated.div
                     onMouseUp={()=> {
                           setStylesNews.start(objectStyleSelected)
@@ -204,14 +229,13 @@ function Menu (props:any){
                     }}
                     style={stylesNews}
                 >
-                  <NewsIcon fill={props.theme["MenuIcon"]}/>
+                  <NewsIcon fill={location.pathname==="/options"?props.theme["IconSelected"]:props.theme["MenuIcon"]}/>
               </animated.div> 
               
               </MobileMenu.Icon>
             </MobileMenu.Item>
             <MobileMenu.Item onClick={()=>{
-                //TODO
-                navigate("/login");}}>
+                logout()}}>
               <MobileMenu.Icon theme={location.pathname==="/login"?props.theme:''}>
               <img className="navbar-icon" src="/assets/profile.png" alt="icon" />
               </MobileMenu.Icon>
@@ -221,10 +245,11 @@ function Menu (props:any){
         :(<DesktopMenu.Wrapper theme={props.theme}>
           <DesktopMenu.Logo><Buttons type={1} text={props.theme==DarkColors?"🌤️":"🌙"}/></DesktopMenu.Logo>
           <DesktopMenu.Items>
-            <DesktopMenu.Item theme={props.theme}>Home</DesktopMenu.Item>
-            <DesktopMenu.Item theme={props.theme}>History</DesktopMenu.Item>
-            <DesktopMenu.Item theme={props.theme}>News</DesktopMenu.Item>
-            <DesktopMenu.Item theme={props.theme}>logout</DesktopMenu.Item>
+            <DesktopMenu.Item theme={props.theme} slot={location.pathname==="/home"?"true":"false"} onClick={()=>{navigate("/home");}}>Home</DesktopMenu.Item>
+            <DesktopMenu.Item theme={props.theme} slot={location.pathname==="/data"?"true":"false"} onClick={()=>{navigate("/data");}}>History</DesktopMenu.Item>
+            <DesktopMenu.Item theme={props.theme} slot={location.pathname==="/options"?"true":"false"} onClick={()=>{navigate("/options");}}>Options</DesktopMenu.Item>
+            <DesktopMenu.Item theme={props.theme} onClick={()=>{
+                logout()}}>logout</DesktopMenu.Item>
           </DesktopMenu.Items>
         </DesktopMenu.Wrapper>)}
     </div>
@@ -236,9 +261,16 @@ function Menu (props:any){
 const mapStateToProps = (state: StateModel): StateModel => {
     return{
       theme:state.theme,
+      loading: state.loading,
+      user: state.user,
+      error:state.error,
     }
     
   }
 
-export default connect(mapStateToProps, null)(Menu);
+const mapDispatchToProps = {
+  setLogout,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 

@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { StateModel } from "../models/state-model";
-import { useSpring, animated, Spring, SpringValue } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import { setTheme } from "../actions";
-import { DarkColors, LightColors } from "../utils/Colors";
-import { svgIconProps } from "../models/svg-model";
-
+import { DarkColors } from "../utils/Colors";
 
 const Container=styled.div`
 overflow: hidden;
 position: absolute;
 padding: 0 0 32px;
 margin: 48px auto 0;
+background: ${props => (props.theme ? props.theme["Background2"]: DarkColors["Background2"])};
 background-image: url(${props => (props.title ? props.title: "")});
 background-position: center;
 background-size: cover;
 background-repeat: no-repeat;
 width: 100%;
-height:55vh;
-top:-7vh;
+height:${props => (props.vocab==="true" ? "55vh": "75vh")};
+top:${props => (props.vocab==="true" ? "-8vh": "11vh")};
 font-family: Quicksand, arial, sans-serif;
 border-radius: 0px 0px 35px 35px;
 `;
@@ -29,7 +28,7 @@ const MiniContainer=styled.div`
     width: 62px;
     height: 63px;
     right: 40px;
-    top: 15px;
+    top: ${props => (props.vocab==="true" ? "15px": "135px")};
     justify-content: center;
     display: flex;
     flex-direction: row;
@@ -49,15 +48,33 @@ object-fit: contain;
 position: relative;
 `;
 
+
+export  const TitleHeader = styled.header`
+  padding-left: 5vw;
+  padding-bottom: 5vh;
+  width: 100%;
+  font-weight: bold;
+  color: ${props => (props.theme ? props.theme["PrimaryText"] : DarkColors["PrimaryText"])};
+  font-size: 1.5rem;
+  padding-top: 32px;
+  justify-content: center;
+  background: linear-gradient(360deg, #000000 0%, #000000 58.85%, rgba(0, 0, 0, 0) 100%);
+  border-radius: 0px 0px 32px 32px; 
+  padding-bottom: 10px;
+  `;
+
 interface SwiperProps extends StateModel {
   theme?: any,
+  loading?:boolean,
   animation: any,
   imageBig: string,
   imageShort: string,
+  isMobile: boolean,
+  text:string
 }
 
 
-export const Swiper : React.FC<SwiperProps> = ({ theme, animation, imageBig, imageShort}) => {
+export const Swiper : React.FC<SwiperProps> = ({ theme, loading, animation, imageBig, imageShort, isMobile, text}) => {
 
     const [styles, setStyles] = useSpring(() => ({
         scale: 1,
@@ -79,9 +96,15 @@ export const Swiper : React.FC<SwiperProps> = ({ theme, animation, imageBig, ima
         >
             <div style={{zIndex:1}}>             
             <animated.div style={animation} >
-                <Container theme={theme} title={imageBig}></Container> 
+                <Container theme={theme} title={imageBig} vocab={isMobile.toString()}>
+                  <div style={{position: "absolute", bottom:"0vh", left:"0vw", width: "100%"}}>
+                    <TitleHeader theme={DarkColors}>{text}</TitleHeader>
+                  </div>
+                </Container> 
             </animated.div>
-            <MiniContainer><MiniImage src={imageShort} /></MiniContainer>
+            <MiniContainer vocab={isMobile.toString()}><MiniImage src={imageShort} /></MiniContainer>
+            
+            
             </div>
             
         </animated.div>
@@ -92,6 +115,7 @@ export const Swiper : React.FC<SwiperProps> = ({ theme, animation, imageBig, ima
 const mapStateToProps = (state: StateModel): StateModel => {
     return{
       theme:state.theme,
+      loading: state.theme,
     }
     
   }

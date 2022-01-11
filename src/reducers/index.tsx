@@ -14,11 +14,28 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
                 loading: true,
             } 
         case 'SET_LOADING':
-        
         return {
             ...state,
             error: '',
             loading: true,
+        } 
+
+        case 'SET_SPORT':
+        return {
+            ...state,
+            sport: action.payload,
+        } 
+
+        case 'SET_COUNTRY':
+        return {
+            ...state,
+            country: action.payload,
+        } 
+
+        case 'SET_PARAMETER_TRIGGER':
+        return {
+            ...state,
+            parameterTrigger: action.payload,
         } 
         
         case 'SET_USER_SUCCESS':
@@ -37,6 +54,32 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
             loading: false,
             error: '',
             sports: action.payload,
+        } 
+
+        case 'SET_COUNTRIES_SUCCESS':
+    
+            return {
+                ...state,
+                loading: false,
+                error: '',
+                countries: action.payload,
+        } 
+
+        case 'SET_LEAGUES_SUCCESS':
+    
+            return {
+                ...state,
+                loading: false,
+                error: '',
+                leagues: action.payload,
+        } 
+
+        case 'SET_DOCUMENT_SUCCESS':
+    
+        return {
+            ...state,
+            loading: false,
+            error: '',
         } 
         
         case 'SET_ERROR':

@@ -1,4 +1,6 @@
+import { LeagueModel } from "./league-model";
+
 export interface DocumentModel{
     like: boolean;
-    sport: string;
+    league: LeagueModel;
 }
