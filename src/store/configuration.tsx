@@ -1,10 +1,22 @@
-import {createStore} from 'redux';
-import { StateModel } from '../models/stateModel';
+import {applyMiddleware, createStore} from 'redux';
+import { StateModel } from '../models/state-model';
 import reducer from '../reducers';
+import thunk from 'redux-thunk';
 import { DarkColors } from '../utils/Colors';
 
-const initialState:StateModel={
+export const InitialState:StateModel={
     theme: DarkColors,
+    user: null,
+    error:'',
+    loading:false,
+    sport: "Soccer",
+    country: "Brazil",
 }
 
-export const store= createStore(reducer,initialState); 
+const _applyMiddleware = applyMiddleware
+
+
+export const store= createStore(reducer,_applyMiddleware(thunk)); 
+
+
+store.subscribe(()=> console.log("store: ",store.getState()))

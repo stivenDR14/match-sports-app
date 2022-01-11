@@ -1,15 +1,25 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "🏀Leage Matcher",
+  "short_name": "🏀LM⚽",
+
+  "dir": "ltr",
+
+  "lang": "en-US",
+
+  "orientation": "portrait",
+  "start_url": "/",
+  "background_color": "#2C2B3E",
+  "theme_color": "#2C2B3E",
+  "display": "standalone",
+  "description": "The best matcher for your favorite Leages.",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/sports.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/sports.png",
+      "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
