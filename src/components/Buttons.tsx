@@ -144,7 +144,7 @@ const Buttons : React.FC<ButtonProps> = ({ theme,  text,  type, setTheme,  isLog
 
     const [stylesLogin, apiLogin] = useSpring(() => ({
         scale: 1,
-        y: 600,
+        y: 535,
         opacity: 1,
         width: "5vh",
       }))

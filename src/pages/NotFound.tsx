@@ -12,7 +12,8 @@ function NotFound(props:any) {
      
       <FormTitle theme={props.theme}> <Buttons type={4}/>Back</FormTitle>
       <FormHeader theme={props.theme}>You shouldn't are here, back to the main page</FormHeader>
-      
+      <br />
+      <Link to="/login"><FormTitle theme={props.theme}>Click here for go to Login Page</FormTitle></Link>
   
     </BodyComponent>);
   }
