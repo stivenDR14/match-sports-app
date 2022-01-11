@@ -37,7 +37,7 @@ export  const FormHeader = styled.header`
   color: ${props => (props.theme ? props.theme["PrimaryText"] : DarkColors["PrimaryText"])};
   font-size: 1.5rem;
   padding-top: 32px;
-  justify-content: center;
+  justify-content: ${props => (props.typeof? "left" : "center")};
   display: flex;
   flex-direction: row;
   align-items: center;

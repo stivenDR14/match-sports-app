@@ -1,4 +1,5 @@
 import { CountryModel } from "./country-model";
+import { DocumentModel } from "./document-model";
 import { LeagueModel } from "./league-model";
 import { SportModel } from "./sport-model";
 
@@ -13,4 +14,5 @@ export interface StateModel{
     sport?: string;
     country?: string;
     parameterTrigger?:boolean;
+    history?:DocumentModel[];
 }

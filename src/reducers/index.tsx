@@ -23,12 +23,16 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
         case 'SET_SPORT':
         return {
             ...state,
+            loading: false,
+            error: '',
             sport: action.payload,
         } 
 
         case 'SET_COUNTRY':
         return {
             ...state,
+            loading: false,
+            error: '',
             country: action.payload,
         } 
 
@@ -80,6 +84,15 @@ const reducer = (state= InitialState, action: { type: string; payload: any; }) =
             ...state,
             loading: false,
             error: '',
+        } 
+
+        case 'SET_HISTORY_SUCCESS':
+    
+        return {
+            ...state,
+            loading: false,
+            error: '',
+            history: action.payload
         } 
         
         case 'SET_ERROR':

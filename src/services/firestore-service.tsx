@@ -1,8 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, Firestore, setDoc, doc, arrayUnion, updateDoc } from 'firebase/firestore/lite';
+import { getFirestore, setDoc, doc, arrayUnion, updateDoc, getDoc } from 'firebase/firestore/lite';
 import { appFirebase } from '../endpoints/firebase-config';
-import { getAuth, createUserWithEmailAndPassword, User, signInWithEmailAndPassword } from "firebase/auth";
-import { DocumentModel } from '../models/document-model';
+import { DocumentModel, HistoryModel } from '../models/document-model';
 const app = appFirebase;
 const db = getFirestore(app);
 
@@ -14,11 +12,23 @@ export class Database{
 
   
   // Get a list of cities from your database
-  public async getSports() {
-    const sportsCol = collection(db, 'sports', this.uid);
-    const sportByUid = await getDocs(sportsCol);
-    console.log(sportByUid)
-    //return sportByUid;
+  public async getLeagues() {
+    
+    try {
+      const leaguesCol = doc(db, 'sports', this.uid);
+      const leaguesByUid = await getDoc(leaguesCol);
+      if (leaguesByUid.exists()) {
+        return leaguesByUid.data();
+      } else {
+        return {}
+      }
+      
+    } catch (error:any) {
+      console.log("error 1 ", error)
+      const errorAux= error.message
+      throw(errorAux); 
+    }
+    
   }
 
   public async setSport(data: DocumentModel){

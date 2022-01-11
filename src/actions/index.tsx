@@ -58,6 +58,13 @@ export const setDocumentSuccess= (data:any) =>{
     }
 }
 
+export const setHistorySuccess= (data:any) =>{
+    return {
+        type: 'SET_HISTORY_SUCCESS',
+        payload: data,
+    }
+}
+
 export const setError = (error: string) =>{
     return {
         type: 'SET_ERROR',
@@ -160,6 +167,21 @@ export const setSportDatabase=(data:DocumentModel,uid:string)=>{
         try {
             const response=await firestoreApi.setSport(data)
             dispatch(setDocumentSuccess(response))   
+        } catch (error:any) {
+            dispatch(setError(error));
+        }
+        
+        
+    }
+}
+
+export const getHistoryUser=(uid:string)=>{
+    return async(dispatch:any) => {
+        dispatch(setLoading())
+        const firestoreApi=new Database(uid)
+        try {
+            const response=await firestoreApi.getLeagues()
+            dispatch(setHistorySuccess(response))   
         } catch (error:any) {
             dispatch(setError(error));
         }
